@@ -1,3 +1,4 @@
+import 'package:alarm/alarm/alarm.dart';
 import 'package:alarm/header/header.dart';
 import 'package:flutter/material.dart';
 import 'package:kpostal/kpostal.dart';
@@ -162,7 +163,7 @@ class _AppState extends State<App> {
           const SizedBox(
             height: 30,
           ),
-          
+          const LocationBasedAlarmWidget(),
           Container(
         alignment: Alignment.center,
         child: Column(
@@ -196,7 +197,7 @@ class _AppState extends State<App> {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.blue)),
               child: const Text(
-                'Search Address',
+                '목적지 찾기',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -213,10 +214,10 @@ class _AppState extends State<App> {
                   const Text('LatLng', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(
                       'latitude: $latitude / longitude: $longitude'),
-                  const Text('through KAKAO Geocoder',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(
-                      'latitude: $kakaoLatitude / longitude: $kakaoLongitude'),
+                  // const Text('through KAKAO Geocoder',
+                  //     style: TextStyle(fontWeight: FontWeight.bold)),
+                  // Text(
+                  //     'latitude: $kakaoLatitude / longitude: $kakaoLongitude'),
                 ],
               ),
             ),

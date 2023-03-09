@@ -15,7 +15,7 @@ class KeepGoing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Keep Going',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

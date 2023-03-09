@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:alarm/header/header.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:location/location.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -18,13 +17,42 @@ class _LoadingPageState extends State<LoadingPage> {
       MaterialPageRoute(builder: (context) => const MainPage(title: 'hi',)),
     );
   }
+   void _requestLocationPermission() async {
 
+// 위치 권한 요청
+  var location = Location();
+  bool serviceEnabled;
+  PermissionStatus permissionGranted;
+  serviceEnabled = await location.serviceEnabled();
+  print(serviceEnabled);
+  if (!serviceEnabled) {
+    serviceEnabled = await location.requestService();
+    if (!serviceEnabled) {
+      return;
+    }
+  }
+  permissionGranted = await location.hasPermission();
+  if (permissionGranted == PermissionStatus.denied) {
+    print(permissionGranted);
+    permissionGranted = await location.requestPermission();
+    
+    if (permissionGranted != PermissionStatus.granted) {
+      return;
+    }
+  }
+
+  // 현재 위치 정보 가져오기
+  LocationData locationData = await location.getLocation();
+
+}
   @override
   void initState() {
     super.initState();
+
     Timer(const Duration(seconds: 2), () {
       moveScreen();
     });
+    _requestLocationPermission();
     
   }
 
@@ -74,6 +102,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _counter = 0;
 
+  
   void _incrementCounter() {
     setState(() {
       _counter++;
