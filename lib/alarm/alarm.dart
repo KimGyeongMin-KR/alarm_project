@@ -123,3 +123,112 @@ class _LocationBasedAlarmWidgetState extends State<LocationBasedAlarmWidget> {
     );
   }
 }
+
+
+
+// import 'package:flutter/material.dart';
+// import 'toggle_button.dart';
+
+class Alram extends StatelessWidget {
+  const Alram({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 13,
+        vertical: 5,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 240,
+              height: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: const [
+                      Text(
+                        "구로 디지털 단지역", // TODO: 
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: const [
+                      Text("매주 평일"),
+                      Text("오전 6시부터"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 70,
+              height: 100,
+              color: Colors.amber,
+              child: const Text(
+                '2km 전',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 70,
+              height: 100,
+              child: const CupertinoSwitchExample()
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class CupertinoSwitchExample extends StatefulWidget {
+  const CupertinoSwitchExample({super.key});
+
+  // const CupertinoSwitchExample({super.key, Key? key});
+
+  @override
+  State<CupertinoSwitchExample> createState() => _CupertinoSwitchExampleState();
+}
+
+class _CupertinoSwitchExampleState extends State<CupertinoSwitchExample> {
+  bool switchValue = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+        activeTrackColor: Colors.green,
+        activeColor: Colors.white,
+        // This bool value toggles the switch.
+        value: switchValue,
+        onChanged: (bool? value) {
+        // This is called when the user toggles the switch.
+        setState(() {
+          switchValue = value ?? false;
+        });
+      },
+    );
+  }
+}
