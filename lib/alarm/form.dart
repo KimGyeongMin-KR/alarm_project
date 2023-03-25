@@ -1,4 +1,3 @@
-import 'package:alarm/alarm/alarm.dart';
 import 'package:alarm/header/header.dart';
 import 'package:flutter/material.dart';
 import 'package:kpostal/kpostal.dart';
@@ -90,9 +89,9 @@ class _AppState extends State<App> {
                   context,
                   MaterialPageRoute(
                     builder: (_) => KpostalView(
-                      useLocalServer: false,
-                      localPort: 1024,
-                      // kakaoKey: '{Add your KAKAO DEVELOPERS JS KEY}',
+                      useLocalServer: true,
+                      localPort: 8080,
+                      kakaoKey: '19280c2c4fe89e14b8fe58ae96218245',
                       callback: (Kpostal result) {
                         setState(() {
                           postCode = result.postCode;
