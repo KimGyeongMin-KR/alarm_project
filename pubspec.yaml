@@ -48,6 +48,7 @@ dependencies:
 
   # 위치 정보 추적 패키지
   location: ^4.4.0
+  kakao_flutter_sdk: ^1.4.2
 
 dev_dependencies:
   flutter_test:

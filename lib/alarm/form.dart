@@ -66,105 +66,20 @@ class App extends StatefulWidget{
 }
 
 class _AppState extends State<App> {
-  List<Widget> myAlrams = [];
-  
   String postCode = '-';
   String address = '-';
   String latitude = '-';
   String longitude = '-';
   String kakaoLatitude = '-';
   String kakaoLongitude = '-';
-  
-  void onClicked() {
-    setState(() {
-    
-    });
-    print(myAlrams);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 137, 26, 192),
-      body: Column(
-        children: [ 
-          const SizedBox(
-            height: 60,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    icon: const Text(
-                      '취소',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: const Text(
-                    '알람 설정',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    icon: const Text(
-                      '저장',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: 800,
-                            child: Container(
-                              child: IconButton(
-                                icon: const Icon(
-                                  IconData(21)
-                                ),
-                                onPressed: onClicked,
-                              ),
-                            ),
-                          );
-                        }
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const LocationBasedAlarmWidget(),
-          Container(
+      appBar: AppBar(
+        title: const Text('hi'),
+      ),
+      body: Container(
         alignment: Alignment.center,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -197,7 +112,7 @@ class _AppState extends State<App> {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.blue)),
               child: const Text(
-                '목적지 찾기',
+                'Search Address',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -214,21 +129,16 @@ class _AppState extends State<App> {
                   const Text('LatLng', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(
                       'latitude: $latitude / longitude: $longitude'),
-                  // const Text('through KAKAO Geocoder',
-                  //     style: TextStyle(fontWeight: FontWeight.bold)),
-                  // Text(
-                  //     'latitude: $kakaoLatitude / longitude: $kakaoLongitude'),
+                  const Text('through KAKAO Geocoder',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                      'latitude: $kakaoLatitude / longitude: $kakaoLongitude'),
                 ],
               ),
             ),
           ],
         ),
       ),
-        ],
-      ),
     );
   }
 }
-
-
-
