@@ -1,7 +1,7 @@
 import 'package:alarm/header/header.dart';
 import 'package:flutter/material.dart';
 import 'package:kpostal/kpostal.dart';
-// import 'package:kopo/kopo.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AlarmFormPage extends StatefulWidget {
   const AlarmFormPage({super.key, required this.title});
@@ -72,6 +72,52 @@ class _AppState extends State<App> {
   String kakaoLatitude = '-';
   String kakaoLongitude = '-';
 
+
+  double _latitude = 0.0;
+  double _longitude = 0.0;
+  final _aliasController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _soundController = TextEditingController();
+
+  // 폼 키 초기화
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 위치 정보 가져오기
+    _getCurrentLocation();
+  }
+
+  // 위치 정보 가져오기
+  void _getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    print(permission);
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if(permission != LocationPermission.whileInUse){
+      permission = await Geolocator.requestPermission();
+    }
+    if(permission != LocationPermission.always){
+      await Geolocator.openAppSettings();
+      print('hi');
+    }
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      setState(() {
+        _latitude = position.latitude;
+        _longitude = position.longitude;
+      });
+    } catch (e) {
+      print(e);
+      print('나 오류');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +165,8 @@ class _AppState extends State<App> {
               padding: const EdgeInsets.all(40.0),
               child: Column(
                 children: [
+                  Text('현재 lat: $_latitude'),
+                  Text('현재 log: $_longitude'),
                   const Text('postCode',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   Text('result: $postCode'),
