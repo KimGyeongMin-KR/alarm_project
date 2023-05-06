@@ -113,6 +113,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             onMapCreated: (GoogleMapController controller) {
               mapController = controller;
             },
+            myLocationButtonEnabled: false,
             minMaxZoomPreference: const MinMaxZoomPreference(13.5, 15.0),
             onCameraMove: (CameraPosition position) {
               double currentZoom = position.zoom;
@@ -185,7 +186,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                   ),
                 );
               },
-                      child: const Text('지도로 찾기'),
+                      child: const Text('주소로 찾기'),
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton(
