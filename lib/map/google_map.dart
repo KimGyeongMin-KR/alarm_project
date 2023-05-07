@@ -92,12 +92,20 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   double selectedRange = 1.0; // 초기 선택 범위
   List? mapCenterXY;
   double previousZoom = 0.0;
+  
+  String? selectedAlias;
+  TextEditingController aliasController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
-
+  
+  @override
+  void dispose() {
+    aliasController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,8 +200,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                     ElevatedButton(
                       onPressed: () {
                         // '선택하기' 버튼 클릭 시 동작
-                        // TODO: 구현해야 할 내용 작성
-                        Navigator.of(context).pop(centerPosition);
+                        openAliasModal();
                       },
                       child: const Text('선택하기'),
                     ),
@@ -230,6 +237,103 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
       CameraUpdate.newLatLng(centerPosition!),
     );
   }
+
+  void openAliasModal() {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(16.0),
+        topRight: Radius.circular(16.0),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 16.0,
+            right: 16.0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '별칭 설정',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              TextField(
+                controller: aliasController,
+                decoration: const InputDecoration(
+                  hintText: '별칭을 입력하세요',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (aliasController.text.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('알림'),
+                          content: const Text('별칭을 입력해주세요.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('확인'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  }
+                  setState(() {
+                    selectedAlias = aliasController.text;
+                    aliasController.clear();
+                  });
+                  Navigator.of(context).pop();
+                  if (selectedAlias != null ){
+
+                    Map<String, dynamic> alarmData = {
+                      "selectedPosition": centerPosition,
+                      "selectedRange": selectedRange,
+                      "selectedAlias": selectedAlias
+                    };
+                    Navigator.of(context).pop(alarmData);
+                  }
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 }
 
 

@@ -1,9 +1,12 @@
 
+
 import 'package:alarm/alarm/form.dart';
 import 'package:flutter/material.dart';
 
 class KeepGoingHeader extends StatefulWidget {
-  const KeepGoingHeader({super.key});
+  final Function alramRegistCallbackFunction;
+  final Function alramEditCallbackFunction;
+  const KeepGoingHeader({super.key, required this.alramRegistCallbackFunction, required this.alramEditCallbackFunction});
 
   @override
   State<KeepGoingHeader> createState() => _KeepGoingHeaderState();
@@ -14,6 +17,14 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
     setState(() {
     
     });
+  }
+
+  void alramRegistCallbackFunction(alramData) {
+    widget.alramRegistCallbackFunction(alramData);
+  }
+
+  void alramEditCallbackFunction() {
+    widget.alramEditCallbackFunction();
   }
 
   @override
@@ -59,11 +70,11 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
                     alignment: Alignment.center,
                     child: IconButton(
                       icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const AlarmFormPage(title: 'title')),
-                          // MaterialPageRoute(builder: (context) => const LocationBasedAlarmWidget()),
+                      onPressed: () async {
+                        dynamic alarmData = await Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => const AlramFormPage(title: 'title')),
                         );
+                        alramRegistCallbackFunction(alarmData);
                       },
                     ),
                   ),
@@ -74,20 +85,17 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
 }
 
 
-
-
 class KeepGoingFormHeader extends StatefulWidget {
-  const KeepGoingFormHeader({super.key});
+  final Function callbackFunction;
+  const KeepGoingFormHeader({super.key, required this.callbackFunction});
 
   @override
   State<KeepGoingFormHeader> createState() => _KeepGoingFormHeaderState();
 }
 
 class _KeepGoingFormHeaderState extends State<KeepGoingFormHeader> {
-  void onClicked() {
-    setState(() {
-    
-    });
+  void alramRegister() {
+    widget.callbackFunction();
   }
 
   @override
@@ -140,9 +148,7 @@ class _KeepGoingFormHeaderState extends State<KeepGoingFormHeader> {
                           color: Colors.green
                         ),
                       ),
-                      onPressed: () {
-                        // TODO 알람 등록 유효성 검사
-                      },
+                      onPressed: alramRegister,
                     ),
                   ),
                 ),
