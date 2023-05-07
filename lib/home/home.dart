@@ -134,7 +134,7 @@ class _MainPageState extends State<MainPage> {
 
       // SharedPreferences를 사용하여 알람 데이터를 로컬 기기 저장소에 저장
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      const String alarmsKey = 'locationAlramsKeepGoing_test2';
+      const String alarmsKey = 'locationAlramsKeepGoing_test3';
 
       final List<String> alarmListString =
           alramList!.map((alarm) => json.encode(alarm)).toList(); // JSON 직렬화
@@ -147,7 +147,7 @@ class _MainPageState extends State<MainPage> {
   }
   Future<void> loadAlramList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    const String alarmsKey = 'locationAlramsKeepGoing_test2';
+    const String alarmsKey = 'locationAlramsKeepGoing_test3';
     final List<String>? alarmListString = prefs.getStringList(alarmsKey);
 
   if (alarmListString != null) {
@@ -165,10 +165,11 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> saveAlramList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    const String alarmsKey = 'alarms';
+      const String alarmsKey = 'locationAlramsKeepGoing_test3';
 
-    final List<String> alarmListString = alramList!.map((alarm) => alarm.toString()).toList();
-    await prefs.setStringList(alarmsKey, alarmListString);
+      final List<String> alarmListString =
+          alramList!.map((alarm) => json.encode(alarm)).toList(); // JSON 직렬화
+      await prefs.setStringList(alarmsKey, alarmListString);
   }
 
   void deleteAlarm(int index) async {
@@ -180,9 +181,16 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  void alramEditer() {
-
+  void alramEditer(Map<String, dynamic> data) {
+    editMode = data['editMode'];
+    setState(() {
+    });
     return;
+  }
+  void movePage() {
+  editMode = false;
+    setState(() {
+    });
   }
 
   @override
@@ -192,8 +200,9 @@ class _MainPageState extends State<MainPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: KeepGoingHeader(
-          alramRegistCallbackFunction: alramRegister,
+          alramRegist: alramRegister,
           alramEditCallbackFunction: alramEditer,
+          moveCallback: movePage,
         ),
       ),
       body: Center(
@@ -219,8 +228,9 @@ class _MainPageState extends State<MainPage> {
                       : Switch(
                           value: isEnabled,
                           onChanged: (value) {
+                            alramList![index]['enabled'] = value;
+                            saveAlramList();
                             setState(() {
-                              alramList![index]['enabled'] = value;
                             });
                           },
                         ),

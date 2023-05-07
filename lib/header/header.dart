@@ -4,27 +4,52 @@ import 'package:alarm/alarm/form.dart';
 import 'package:flutter/material.dart';
 
 class KeepGoingHeader extends StatefulWidget {
-  final Function alramRegistCallbackFunction;
+  final Function alramRegist;
   final Function alramEditCallbackFunction;
-  const KeepGoingHeader({super.key, required this.alramRegistCallbackFunction, required this.alramEditCallbackFunction});
+  final Function moveCallback;
+  const KeepGoingHeader({
+    super.key,
+    required this.alramRegist,
+    required this.alramEditCallbackFunction,
+    required this.moveCallback
+  });
 
   @override
   State<KeepGoingHeader> createState() => _KeepGoingHeaderState();
 }
 
 class _KeepGoingHeaderState extends State<KeepGoingHeader> {
-  void onClicked() {
-    setState(() {
-    
-    });
-  }
+    bool editMode = false;
+    String editSectionName = '편집';
 
-  void alramRegistCallbackFunction(alramData) {
-    widget.alramRegistCallbackFunction(alramData);
+  void alramRegist(alramData) {
+    widget.alramRegist(alramData);
   }
 
   void alramEditCallbackFunction() {
-    widget.alramEditCallbackFunction();
+    editSectionName = editMode? '편집': '취소';
+    editMode = editMode? false : true;
+    setState(() {
+    });
+    Map<String, dynamic> data = {
+      'editMode': editMode
+    };
+    widget.alramEditCallbackFunction(data);
+  }
+
+  void moveCallback(){
+    widget.moveCallback();
+  }
+
+  void setEditMode(){
+    editSectionName = '편집';
+    editMode = false;
+    setState(() {
+    });
+    Map<String, dynamic> data = {
+      'editMode': editMode
+    };
+    widget.alramEditCallbackFunction(data);
   }
 
   @override
@@ -37,16 +62,16 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
                   child: Container(
                     alignment: Alignment.center,
                     child: IconButton(
-                      icon: const Text(
-                        '편집',
-                        style: TextStyle(
+                      icon: Text(
+                        editSectionName,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
                       ),
                       onPressed: () {
                         // TODO: '편집' 버튼을 눌렀을 때 실행할 코드 작성
-                        
+                        alramEditCallbackFunction();
                       },
                     ),
                   ),
@@ -71,11 +96,12 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
                     child: IconButton(
                       icon: const Icon(Icons.add),
                       onPressed: () async {
+                        setEditMode();
                         dynamic alarmData = await Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => const AlramFormPage(title: 'title')),
                         );
                         if (alarmData != null){
-                          alramRegistCallbackFunction(alarmData);
+                          alramRegist(alarmData);
                         }
                       },
                     ),
