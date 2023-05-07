@@ -47,9 +47,9 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # 위치 정보 추적 패키지
+  google_maps_flutter: ^2.2.5
   location: ^4.4.0
   kakao_flutter_sdk: ^1.4.2
-  google_maps_flutter: ^2.2.5
   flutter_polyline_points: ^1.0.0
 
 dev_dependencies:

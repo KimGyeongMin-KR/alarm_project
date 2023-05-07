@@ -74,7 +74,9 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
                         dynamic alarmData = await Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => const AlramFormPage(title: 'title')),
                         );
-                        alramRegistCallbackFunction(alarmData);
+                        if (alarmData != null){
+                          alramRegistCallbackFunction(alarmData);
+                        }
                       },
                     ),
                   ),
