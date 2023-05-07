@@ -89,33 +89,48 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 }
 
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
-
-
   final String title;
-
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int _counter = 0;
 
-  
+  bool editMode = false;
+  List<Map<String, dynamic>>? alramList;
+
   void _incrementCounter() {
     setState(() {
-      _counter++;
     });
+  }
+  @override
+  void initState() {
+
+  }
+
+  void alramRegister(alarmData) {
+
+    return;
+  }
+
+  void alramEditer() {
+
+    return;
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: KeepGoingHeader(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0),
+        child: KeepGoingHeader(
+          alramRegistCallbackFunction: alramRegister,
+          alramEditCallbackFunction: alramEditer,
+        ),
       ),
       body: Center(
         child: Column(
@@ -126,7 +141,7 @@ class _MainPageState extends State<MainPage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              'zzz',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
