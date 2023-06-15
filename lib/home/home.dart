@@ -4,6 +4,7 @@ import 'package:alarm/header/header.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -77,7 +78,7 @@ class _MainPageState extends State<MainPage> {
   bool editMode = false;
   List<Map<String, dynamic>>? alramList;
   bool? atLeastOneActivate;
-  
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   void _alarmOn(){
 
@@ -250,6 +251,39 @@ class _MainPageState extends State<MainPage> {
       });
     }
   }
+
+  Future<void> initializeNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid, iOS: null);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future<void> onSelectNotification(String? payload) async {
+    if (payload != null) {
+      debugPrint('Notification payload: $payload');
+    }
+  }
+
+  Future<void> scheduleNotification() async {
+    const int id = 0;
+    const String title = 'Flutter 알림';
+    const String body = '알림 내용입니다.';
+    const String payload = 'Custom_Sound';
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: null, iOS: null);
+
+    await flutterLocalNotificationsPlugin.schedule(
+        id, title, body, DateTime.now().add(const Duration(seconds: 5)),
+        platformChannelSpecifics,
+        payload: payload);
+  }
+
+
   Future<void> loadAlramList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     const String alarmsKey = 'locationAlramsKeepGoing_test3';
