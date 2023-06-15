@@ -1,5 +1,3 @@
-
-
 import 'package:alarm/alarm/form.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +16,15 @@ class KeepGoingHeader extends StatefulWidget {
   State<KeepGoingHeader> createState() => _KeepGoingHeaderState();
 }
 
-class _KeepGoingHeaderState extends State<KeepGoingHeader> {
+class _KeepGoingHeaderState extends State<KeepGoingHeader>{
     bool editMode = false;
     String editSectionName = '편집';
+
+
+    @override
+    void initState() {
+      super.initState();
+    }
 
   void alramRegist(alramData) {
     widget.alramRegist(alramData);
@@ -28,7 +32,9 @@ class _KeepGoingHeaderState extends State<KeepGoingHeader> {
 
   void alramEditCallbackFunction() {
     editSectionName = editMode? '편집': '취소';
-    editMode = editMode? false : true;
+    // editMode = editMode? false : true;
+    editMode = !editMode;
+
     setState(() {
     });
     Map<String, dynamic> data = {

@@ -51,6 +51,8 @@ dependencies:
   location: ^4.4.0
   kakao_flutter_sdk: ^1.4.2
   flutter_polyline_points: ^1.0.0
+  flutter_background_geolocation: ^4.11.0
+  flutter_local_notifications: ^14.1.1
 
 dev_dependencies:
   flutter_test:
